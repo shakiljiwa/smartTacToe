@@ -91,7 +91,7 @@ def randomMove(boardlist,player): #in this case the player makes a random move
 
 finalList = [] #this final list is essentially a list of lists that we will take apart at feed to the decision tree algorithm 
 numberO = 0
-for i in range(0,60): #this is the number of times you want to train the player with random numbers
+for i in range(0,10000): #this is the number of times you want to train the player with random numbers
 	finalList.append(pvp())
 	if finalList[-1]== 'x':
 		finalList.pop()
@@ -131,11 +131,12 @@ clf2 = clf2.fit(fsm,np.reshape(lsm,(-1,1)))
 clf3 = tree.DecisionTreeClassifier()
 clf3 = clf3.fit(ftm,np.reshape(ltm,(-1,1)))
 clf4 = tree.DecisionTreeClassifier()
+clf4 = clf4.fit(ffom,np.reshape(lfom,(-1,1)))
 if len(lfom)==1:
 	clf4 = clf4.fit(ffom,np.reshape(lfom,(-1,1)))
 
 #now time to play the game
-for i in range(0,3):
+for i in range(0,1):
 	n = 0
 	boardlist = [0,1,2,3,4,5,6,7,8]
 	learnList = [[],[],[],[]]
@@ -173,7 +174,7 @@ for i in range(0,3):
 			move = clf4.predict(np.reshape(learnList[0]+learnList[1]+learnList[2]+prep,(1,-1)))
 		print(" the move the computer wants you to enter is ",end = "")
 		print(move)
-		move = int(input(" enter the computers command "))
+		move = int(input(" enter the computers command, if its not there just enter any number "))
 		while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
 			move = int(input("spots taken though, so enter the number of the space you wish to fill "))
 		boardlist[move] = 'o'
