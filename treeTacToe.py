@@ -2,96 +2,96 @@
 import random #to train the model, it will be able to play against randomly generated moves or the player herself
 import numpy as np
 from sklearn import tree
-def printboard(boardlist): # this is just a method that takes the list which is the x and o grid and prints it
+def printBoard(boardList): # this is just a method that takes the list which is the x and o grid and prints it
 	for n in range(0,8,3):
 		print("   ",end = "")
-		print(boardlist[n], end = "  |  ")
-		print(boardlist[n+1], end = "  |  ")
-		print(boardlist[n+2])
+		print(boardList[n], end = "  |  ")
+		print(boardList[n+1], end = "  |  ")
+		print(boardList[n+2])
 		if n != 6:
 			print("--------------------") #just for visuals
 			
 def pvp(): #this is a player vs player module that will be a base for the game and its testing
 	n = 0
-	boardlist = [0,1,2,3,4,5,6,7,8]
+	boardList = [0,1,2,3,4,5,6,7,8]
 	learnList = [[],[],[],[]]
-	#printboard(boardlist)
+	#printBoard(boardList)
 	newMoveList = []
 	gameOn = True
 	while gameOn == True:
 		if n == 4:
 			break
 		move = random.randint(0,9)
-		while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
+		while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
 			move = random.randint(0,9)
-		boardlist[move] = 'x'
+		boardList[move] = 'x'
 		learnList[n].append(move)
-		#printboard(boardlist)
-		gameOn = checkwin(boardlist)
+		#printBoard(boardList)
+		gameOn = checkwin(boardList)
 		if gameOn == False:
 			break
 		move = random.randint(0,9)
-		while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
+		while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
 			move = random.randint(0,9)
-		boardlist[move] = 'o'
+		boardList[move] = 'o'
 		learnList[n].append(move)
-		#printboard(boardlist)
-		gameOn = checkwin(boardlist)
+		#printBoard(boardList)
+		gameOn = checkwin(boardList)
 		n+=1
-	if whoWin(boardlist) == 'o':
+	if whoWin(boardList) == 'o':
 		return learnList
 	else:
 		return 'x'
-def extractMove(boardlist, newMoveList):
-	for i in range(0,len(boardlist)):
-		if boardlist[i]!= newMoveList[i]:
+def extractMove(boardList, newMoveList):
+	for i in range(0,len(boardList)):
+		if boardList[i]!= newMoveList[i]:
 			return i
 
-def whoWin(boardlist):
+def whoWin(boardList):
 	for n in range(0,7,3):
-		if boardlist[n] == boardlist[n+1] and boardlist[n] == boardlist[n+2]:
-			#print("the winner is... " + boardlist[n] )
-			#printboard(boardlist)
-			if boardlist[n]=='o' or boardlist[n]!='x':
+		if boardList[n] == boardList[n+1] and boardList[n] == boardList[n+2]:
+			#print("the winner is... " + boardList[n] )
+			#printBoard(boardList)
+			if boardList[n]=='o' or boardList[n]!='x':
 				return 'o'
 	for n in range(0,3):
-		if boardlist[n]== boardlist[n+3] and boardlist[n]== boardlist[n+6]:
-			#print("the winner is... " + boardlist[n] )
-			#printboard(boardlist)
-			if boardlist[n]=='o' or boardlist[n]!='x':
+		if boardList[n]== boardList[n+3] and boardList[n]== boardList[n+6]:
+			#print("the winner is... " + boardList[n] )
+			#printBoard(boardList)
+			if boardList[n]=='o' or boardList[n]!='x':
 				return 'o'
-	if (boardlist[2] == boardlist[4] and boardlist[4]== boardlist[6])or(boardlist[0] == boardlist[4] and boardlist[4]== boardlist[8]):
-		#print("the winner is... " + boardlist[4] )
-		#printboard(boardlist)
-		if boardlist[4]=='o' or boardlist[4]!='x':
+	if (boardList[2] == boardList[4] and boardList[4]== boardList[6])or(boardList[0] == boardList[4] and boardList[4]== boardList[8]):
+		#print("the winner is... " + boardList[4] )
+		#printBoard(boardList)
+		if boardList[4]=='o' or boardList[4]!='x':
 				return 'o'
 	return 'x'
-def checkwin(boardlist):
+def checkwin(boardList):
 	for n in range(0,7,3):
-		if boardlist[n] == boardlist[n+1] and boardlist[n+1] == boardlist[n+2]:
+		if boardList[n] == boardList[n+1] and boardList[n+1] == boardList[n+2]:
 			return False
 	for n in range(0,3):
-		if boardlist[n]== boardlist[n+3] and boardlist[n+3] == boardlist[n+6]:
+		if boardList[n]== boardList[n+3] and boardList[n+3] == boardList[n+6]:
 			return False
-	if (boardlist[2] == boardlist[4] and boardlist[2]== boardlist[6]) or (boardlist[0] == boardlist[4] and boardlist[0]== boardlist[8]):
+	if (boardList[2] == boardList[4] and boardList[2]== boardList[6]) or (boardList[0] == boardList[4] and boardList[0]== boardList[8]):
 		return False
 		
 	else:
 		return True
 
-def randomMove(boardlist,player): #in this case the player makes a random move
+def randomMove(boardList,player): #in this case the player makes a random move
 	#print("the other player makes a random move")
 	move = random.randint(0,9)
-	while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
+	while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
 		move = random.randint(0,9)
-	boardlist[move] = player
-	return boardlist
+	boardList[move] = player
+	return boardList
 
 #the program starts here
 
 finalList = [] #this final list is essentially a list of lists that we will take apart at feed to the decision tree algorithm 
 numberO = 0
-for i in range(0,10000): #this is the number of times you want to train the player with random numbers
+for i in range(0,200000): #this is the number of times you want to train the player with random numbers
 	finalList.append(pvp())
 	if finalList[-1]== 'x':
 		finalList.pop()
@@ -138,24 +138,24 @@ if len(lfom)==1:
 #now time to play the game
 for i in range(0,1):
 	n = 0
-	boardlist = [0,1,2,3,4,5,6,7,8]
+	boardList = [0,1,2,3,4,5,6,7,8]
 	learnList = [[],[],[],[]]
-	printboard(boardlist)
+	printBoard(boardList)
 	newMoveList = []
 	gameOn = True
 	while gameOn == True:
 		if n == 4:
 			break #gonnna keep this random here for random testing
 		#move = random.randint(0,9)
-		#while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
+		#while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
 		#	move = random.randint(0,9)
 		move = int(input(" enter the number of the space you wish to fill "))
-		while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
+		while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
 			move = int(input("spots taken though, so enter the number of the space you wish to fill "))
-		boardlist[move] = 'x'
+		boardList[move] = 'x'
 		learnList[n].append(move)
-		printboard(boardlist)
-		gameOn = checkwin(boardlist)
+		printBoard(boardList)
+		gameOn = checkwin(boardList)
 		if gameOn == False:
 			break
 		if n == 0:
@@ -175,10 +175,10 @@ for i in range(0,1):
 		print(" the move the computer wants you to enter is ",end = "")
 		print(move)
 		move = int(input(" enter the computers command, if its not there just enter any number "))
-		while move not in boardlist: #to ensure a spot doesnt get filled then filled again by another or the same player
+		while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
 			move = int(input("spots taken though, so enter the number of the space you wish to fill "))
-		boardlist[move] = 'o'
+		boardList[move] = 'o'
 		learnList[n].append(move)
-		printboard(boardlist)
-		gameOn = checkwin(boardlist)
+		printBoard(boardList)
+		gameOn = checkwin(boardList)
 		n+=1
