@@ -18,7 +18,7 @@ def pvp(): #this is a player vs player module that will be a base for the game a
 	#printBoard(boardList)
 	newMoveList = []
 	gameOn = True
-	while gameOn == True:
+	while gameOn:
 		if n == 4:
 			break
 		move = random.randint(0,9)
@@ -28,7 +28,7 @@ def pvp(): #this is a player vs player module that will be a base for the game a
 		learnList[n].append(move)
 		#printBoard(boardList)
 		gameOn = checkwin(boardList)
-		if gameOn == False:
+		if gameOn==False:
 			break
 		move = random.randint(0,9)
 		while move not in boardList: #to ensure a spot doesnt get filled then filled again by another or the same player
@@ -143,7 +143,7 @@ for i in range(0,1):
 	printBoard(boardList)
 	newMoveList = []
 	gameOn = True
-	while gameOn == True:
+	while gameOn:
 		if n == 4:
 			break #gonnna keep this random here for random testing
 		#move = random.randint(0,9)
@@ -156,7 +156,7 @@ for i in range(0,1):
 		learnList[n].append(move)
 		printBoard(boardList)
 		gameOn = checkwin(boardList)
-		if gameOn == False:
+		if gameOn==False:
 			break
 		if n == 0:
 			move = clf1.predict(np.reshape(learnList[0][0],(-1,1)))
