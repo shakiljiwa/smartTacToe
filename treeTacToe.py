@@ -91,7 +91,7 @@ def randomMove(boardList,player): #in this case the player makes a random move
 
 finalList = [] #this final list is essentially a list of lists that we will take apart at feed to the decision tree algorithm 
 numberO = 0
-for i in range(0,200000): #this is the number of times you want to train the player with random numbers
+for i in range(0,500000): #this is the number of times you want to train the player with random numbers
 	finalList.append(pvp())
 	if finalList[-1]== 'x':
 		finalList.pop()
